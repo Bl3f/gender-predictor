@@ -29,5 +29,17 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=user/app:buildcache
-          cache-to: type=registry,ref=user/app:buildcache,mode=max
+
+  deploy_on_gcp:
+    name: Deploy docker image on Google Compute Engine
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+      - name: Deploy container image
+        run: |-
+          gcloud compute instances create-with-container christophe-gender-predictor --container-image cblefari/gender-predictor:main
