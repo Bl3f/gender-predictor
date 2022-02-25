@@ -16,19 +16,12 @@ jobs:
           username: cblefari
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Tag Docker image
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: cblefari/gender-predictor
-
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: cblefari/gender-predictor
           cache-from: type=registry,ref=cblefari/gender-predictor:buildcache
           cache-to: type=registry,ref=cblefari/gender-predictor:buildcache,mode=max
 
