@@ -39,7 +39,9 @@ jobs:
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+
       - name: Deploy container image
         run: |-
-          gcloud config list
-# gcloud compute instances create-with-container christophe-gender-predictor --container-image cblefari/gender-predictor:main
+          gcloud compute instances create-with-container christophe-gender-predictor --container-image cblefari/gender-predictor:main
